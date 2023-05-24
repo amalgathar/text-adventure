@@ -41,33 +41,10 @@ public class Room {
         this.doors = doors;
     }
 
-    public String getNumberOfDoors() {
-        String doorsDescription;
-        if (getDoors().size() == 1) {
-            doorsDescription = "\nThere is 1 door, in the " + getDoors().get(0).getDirection() + " end of the room.";
-        } else {
-            doorsDescription = getMultipleDoorDirections();
-        }
-        return doorsDescription;
-    }
-
     @Override
     public String toString() {
         return "Room{" + "name='" + name + '\'' + ", description='" + description + '\'' + ", item=" + items + ", doors=" + doors
                 + '}';
-    }
-
-    private String getMultipleDoorDirections() {
-        StringBuilder stringBuilder = new StringBuilder("\nThere are " + getDoors().size() + " doors in the room.");
-        for (int i = 0; i < getDoors().size(); i++) {
-            stringBuilder
-                    .append("\nDoor number ")
-                    .append(i + 1)
-                    .append(" is in the ")
-                    .append(getDoors().get(i).getDirection())
-                    .append(" end of the room.");
-        }
-        return stringBuilder.toString();
     }
 
 }

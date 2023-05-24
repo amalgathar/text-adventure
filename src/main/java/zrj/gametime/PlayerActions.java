@@ -24,7 +24,7 @@ public class PlayerActions {
     }
 
     public void checkRoom(Room room) {
-        System.out.println(room.getDescription() + room.getNumberOfDoors() + checkCurrentItemsInRoom(room));
+        System.out.println(room.getDescription() + getNumberOfDoors(room) + checkCurrentItemsInRoom(room));
     }
 
     private String checkCurrentItemsInRoom(Room room) {
@@ -38,6 +38,29 @@ public class PlayerActions {
             }
             return stringBuilder.toString();
         }
+    }
+
+    private String getNumberOfDoors(Room room) {
+        String doorsDescription;
+        if (room.getDoors().size() == 1) {
+            doorsDescription = "\nThere is 1 door, in the " + room.getDoors().get(0).getDirection() + " end of the room.";
+        } else {
+            doorsDescription = getMultipleDoorDirections(room);
+        }
+        return doorsDescription;
+    }
+
+    private String getMultipleDoorDirections(Room room) {
+        StringBuilder stringBuilder = new StringBuilder("\nThere are " + room.getDoors().size() + " doors in the room.");
+        for (int i = 0; i < room.getDoors().size(); i++) {
+            stringBuilder
+                    .append("\nDoor number ")
+                    .append(i + 1)
+                    .append(" is in the ")
+                    .append(room.getDoors().get(i).getDirection())
+                    .append(" end of the room.");
+        }
+        return stringBuilder.toString();
     }
 
 }
