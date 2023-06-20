@@ -2,6 +2,8 @@ package zrj.gametime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import zrj.gametime.actions.Action;
 import zrj.gametime.objects.Direction;
 import zrj.gametime.objects.Door;
 import zrj.gametime.objects.Item;
@@ -11,6 +13,29 @@ import zrj.gametime.objects.Room;
 public class Main {
 
     public static void main(String[] args) {
+        CommandParser parser = new CommandParser();
+        Game game = new Game();
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("Enter command: ");
+            String command = scanner.nextLine();
+            try {
+                Action action = parser.parseCommand(command);
+                game.performAction(action);
+
+                if (game.isWon()) {
+                    break;
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        scanner.close();
+    }
+
+    private void funThings() {
         Key key = new Key();
         key.setName("Skull Key");
         key.setAttribute("skull");
@@ -26,7 +51,9 @@ public class Main {
         door.setOpen(false);
         door.setUnlocked(false);
         door.setRequiresKeyAttribute(true);
+        door.setExit(false);
         door.setDirection(Direction.NORTH);
+        door.setDescription("a door adorned with skulls. This could be the right way to go.  It could also be the right way to go if your goal is being destroyed by Satanic monsters. Your call.");
 
         Door door2 = new Door();
         door2.setOpen(true);
