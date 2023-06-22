@@ -6,6 +6,24 @@ public class Door {
     private boolean isOpen;
     private boolean requiresKeyAttribute;
     private Direction direction;
+    private boolean exit;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isExit() {
+        return exit;
+    }
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
 
     public Direction getDirection() {
         return direction;
