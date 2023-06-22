@@ -8,13 +8,15 @@ public class CommandParser {
     private static final Map<String, ActionType> actionKeywords = new HashMap<>();
 
     static {
-        actionKeywords.put("go to", ActionType.GO_TO);
-        actionKeywords.put("walk to", ActionType.WALK_TO);
-        actionKeywords.put("run to", ActionType.RUN_TO);
-        actionKeywords.put("move to", ActionType.MOVE_TO);
+        for (ActionType actionType : ActionType.values()) {
+            String command = actionType.name().toLowerCase().replace("_", " ");
+            actionKeywords.put(command, actionType);
+        }
     }
 
     public Action parseCommand(String command) {
+        command = command.toLowerCase();
+
         for (Map.Entry<String, ActionType> actionKeyword : actionKeywords.entrySet()) {
             if (command.startsWith(actionKeyword.getKey())) {
                 String target = command.substring(actionKeyword.getKey().length());
