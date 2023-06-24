@@ -2,7 +2,8 @@ package zrj.gametime.gamestate;
 
 import lombok.Getter;
 import lombok.Setter;
-import zrj.gametime.commands.Action;
+import zrj.gametime.commands.MovementAction;
+import zrj.gametime.scenario.Scenario;
 
 @Setter
 @Getter
@@ -10,11 +11,11 @@ public class Game {
 
     private String location;
     private boolean won = false;
+    private Scenario scenario;
 
-    public void performAction(Action action) {
-        location = action.getTarget();
-        System.out.println("You have " + action.getActionType().toString().toLowerCase().replace("_", " ") +  location + ".");
-
+    public void performAction(MovementAction action) {
+        location = action.getTargetLocation();
+        System.out.println("You are now in " + location + ".");
     }
 
 }
