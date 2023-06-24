@@ -3,7 +3,7 @@ package zrj.gametime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import zrj.gametime.commands.Action;
+import zrj.gametime.commands.MovementAction;
 import zrj.gametime.commands.CommandParser;
 import zrj.gametime.gamestate.Game;
 import zrj.gametime.objects.Direction;
@@ -11,6 +11,8 @@ import zrj.gametime.objects.Door;
 import zrj.gametime.objects.Item;
 import zrj.gametime.objects.Key;
 import zrj.gametime.objects.Room;
+import zrj.gametime.scenario.Scenario;
+
 
 public class Main {
 
@@ -23,7 +25,7 @@ public class Main {
             System.out.println("Enter command: ");
             String command = scanner.nextLine();
             try {
-                Action action = parser.parseCommand(command);
+                MovementAction action = parser.parseCommand(command);
                 game.performAction(action);
 
                 if (game.isWon()) {

@@ -1,7 +1,9 @@
 package zrj.gametime.objects;
 
 import java.util.List;
+import lombok.Builder;
 
+@Builder
 public class Room {
 
     private String name;

@@ -1,29 +1,37 @@
 package zrj.gametime.commands;
 
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class CommandParser {
 
-    private static final Map<String, ActionType> actionKeywords = new HashMap<>();
+    private static Map<String, MovementActions> actionKeywords = new LinkedHashMap<>();
 
     static {
-        for (ActionType actionType : ActionType.values()) {
-            String command = actionType.name().toLowerCase().replace("_", " ");
-            actionKeywords.put(command, actionType);
-        }
+        actionKeywords = Arrays.stream(MovementActions.values())
+                .collect(Collectors.toMap(
+                        MovementActions::getLowerForm,
+                        Function.identity(),
+                        (action1, action2) -> action1,
+                        LinkedHashMap::new
+                ));
+
+        actionKeywords.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(String::length).reversed()))
+                .forEachOrdered(entry -> actionKeywords.put(entry.getKey(), entry.getValue()));
     }
 
-    public Action parseCommand(String command) {
-        command = command.toLowerCase();
-
-        for (Map.Entry<String, ActionType> actionKeyword : actionKeywords.entrySet()) {
-            if (command.startsWith(actionKeyword.getKey())) {
-                String target = command.substring(actionKeyword.getKey().length());
-                return new Action(actionKeyword.getValue(), target);
-            }
-        }
-        throw new IllegalArgumentException("Invalid Command");
+    public MovementAction parseCommand(String command) {
+        return actionKeywords.entrySet()
+                .stream()
+                .filter(a -> command.startsWith(a.getKey()))
+                .map(a -> new MovementAction(a.getValue(), command.substring(a.getKey().length()).trim()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Command"));
     }
 
 }
